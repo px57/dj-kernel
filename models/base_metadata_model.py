@@ -36,7 +36,16 @@ class BaseMetadataModel(models.Model):
         """
         self._LOAD[key] = value
 
+    def run_save(self, save):
+        """
+            @description: 
+        """
+        if save:
+            self.save()
+
+
     class Meta:
         abstract = True
         get_latest_by = 'updated_on'
         ordering = ['-updated_on']
+
