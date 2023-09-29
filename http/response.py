@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Docstrings."""
 
+from django.test import TestCase
+
 try:
     from django.http import JsonResponse
     from django.conf import settings
@@ -17,7 +19,9 @@ class ResponseCore:
     }
 
     def __init__(self, child_class):
-        """__init__."""
+        """
+            @description: 
+        """
         self.child_class = child_class
         self.first_run = True
         self.content = {
@@ -25,11 +29,15 @@ class ResponseCore:
         }
 
     def initEnd(self):
-        """The initialisation in ended."""
+        """
+            @description: The initialisation in ended. 
+        """
         self.first_run = False
 
     def set_conf(self, kwargs):
-        """Recept configuration to Response class."""
+        """
+            @description: Recept configuration to Response class.
+        """
         kwargs.setdefault('response_raw', False)
         for key in ['response_raw']:
             setattr(self, key, kwargs[key])
@@ -44,7 +52,9 @@ class ResponseCore:
         return JsonResponse(self.content, json_dumps_params={'indent': 2})
 
     def _clean_error(self, error_update):
-        """Clean error response."""
+        """
+            @description: Clean error response. 
+        """
         res = {}
         for key in error_update:
             if error_update.get(key) is None:
@@ -54,7 +64,9 @@ class ResponseCore:
 
 
 class Response(object):
-    """Class adapted for response in views function."""
+    """
+        @description: Class adapted for response in views function. 
+    """ 
 
     __core__ = {}
 
@@ -256,3 +268,39 @@ class responseSet__QuerySet(object):
             err_msg = 'excludeValues cannot be of the type "{}".'.format(type(setValues))
             raise TypeError(err_msg)
         self.excludeValues = excludeValues
+
+
+class ResponseTest(TestCase):
+    """
+        @description: Class adapted for response in views function.
+    """
+
+    def _convertValueToDict(self, value):
+        """
+            @description: Convert value to dict.
+        """
+        if type(value) == dict:
+            return value
+        elif type(value) == str:
+            return json.loads(value)
+        elif type(value) == bytes:
+            return json.loads(value.decode('utf-8'))
+        return {}
+
+    def assertSuccess(self, value):
+        """
+            @description: Set value, string or dict, observe if the value is success -> true.
+            @return: Return formated value.
+        """
+        value = self._convertValueToDict(value)
+        self.assertTrue(value.get('success'))
+        return value
+
+    def assertError(self, value): 
+        """
+            @description: Set value, string or dict, observe if the value is success -> false.
+            @return: Return formated value.
+        """
+        value = self._convertValueToDict(value)
+        self.assertFalse(value.get('success'))
+        return value
