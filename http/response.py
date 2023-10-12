@@ -81,6 +81,9 @@ class Response(object):
         self.__core__.set_conf(kwargs)
         self.__core__.initEnd()
 
+        if 'request' in kwargs:
+            self.request = kwargs['request']
+
     def restResponse(self, globals, request, function):
         """
             @description: Il s'agit d'une interface REST adapter a ma logique de programmation.
@@ -213,7 +216,6 @@ class Response(object):
             return getattr(super(Response, self), key)
         return self.__core__.content[key]
 
-
     # --------------- [ITEM]
     # def __setitem__(self, key, value):
     #     """__setitem__."""
@@ -233,8 +235,10 @@ class responseSet__QuerySet(object):
     """
         @description:
     """
-
-    def __init__(self, querySet, setValues='*', excludeValues=None):
+    def __init__(self, 
+        querySet, 
+        setValues='*', 
+        excludeValues=None):
         """
             @description: Docstrings.
         """
@@ -304,3 +308,9 @@ class ResponseTest(TestCase):
         value = self._convertValueToDict(value)
         self.assertFalse(value.get('success'))
         return value
+    
+def get_fake_response():
+    """
+        @description: Return a fake response.
+    """
+    

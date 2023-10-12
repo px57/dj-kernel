@@ -17,10 +17,15 @@ class FakeRequest:
         """
         return True
     
-def generate_fake_request(path='/', user=None):
+def generate_fake_request(path='/', user=None, profile=None):
     """
         @description: Il s'agit ici de générer une fausse requête.
+        @params.path: Il s'agit ici du chemin de la requête.
+        @params.user: Il s'agit ici de l'utilisateur de la requête.
     """
+    if profile is not None:
+        user = profile.user
+        
     request = WSGIRequest({
         'REQUEST_METHOD': 'GET',
         'PATH_INFO': path,
