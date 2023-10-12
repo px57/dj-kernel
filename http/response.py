@@ -2,6 +2,7 @@
 """Docstrings."""
 
 from django.test import TestCase
+from kernel.http.request import generate_fake_request
 
 try:
     from django.http import JsonResponse
@@ -313,4 +314,6 @@ def get_fake_response():
     """
         @description: Return a fake response.
     """
+    fake_request = generate_fake_request()
+    return Response(request=fake_request)    
     
