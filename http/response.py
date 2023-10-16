@@ -152,16 +152,14 @@ class Response(object):
         if self.has_request():
             request = self.get_request()
             protocol = request.scheme
-
-        print (protocol)
         return protocol
 
     def create_client_url(self, pathname: str) -> str:
         """
             @description: Get site in request.
         """
-        print (self.get_request_protocol() + '://' )
-        self.get_request_protocol() + '://' + os.path.join(self.get_host(), pathname)
+        protocol = 'http'
+        return self.get_request_protocol() + '://' + os.path.join(self.get_host(), pathname)
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def restResponse(self, globals, request, function):
