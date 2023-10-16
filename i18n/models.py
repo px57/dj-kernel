@@ -86,7 +86,6 @@ def translateDBQuerySet(**kwargs):
     translation_model = querySet[0].translation_model
     dbTranslate = translation_model.objects.filter(query)
 
-    print ('----------------------->>> [].,')
     # -> merge the translate with the querySet
     for translate in dbTranslate:
         for result in querySet:

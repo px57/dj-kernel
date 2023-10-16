@@ -1,6 +1,7 @@
 
 from django.conf import settings
 import django
+import pprint
 
 def fetch_all_models_file():
     """
@@ -14,7 +15,7 @@ def fetch_all_models_file():
         try:
             models_files.append(__import__(model + '.models', fromlist=['']))
         except Exception as e:
-            print (e)
+            pprint.pprint (e)
     return models_files
 
 

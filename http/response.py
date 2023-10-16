@@ -3,6 +3,10 @@
 
 from django.test import TestCase
 from kernel.http.request import generate_fake_request
+from sites.models import Site
+
+import pprint
+import os
 
 try:
     from django.http import JsonResponse
@@ -28,6 +32,7 @@ class ResponseCore:
         self.content = {
             'success': False,
         }
+        self.request = None
 
     def initEnd(self):
         """
@@ -48,7 +53,7 @@ class ResponseCore:
             return self.content
 
         if settings.DEBUG:
-            print ("return formated http response")
+            pprint.pprint ("return formated http response")
 
         return JsonResponse(self.content, json_dumps_params={'indent': 2})
 
@@ -78,13 +83,87 @@ class Response(object):
             kwargs.response_raw <boolean>
             ---- Retourne un self.content sous forme d'object python si True
         """
+        request = None
+        if kwargs.get('request'):
+            request = kwargs.get('request')
+            del kwargs['request']
+
         self.__core__ = ResponseCore(self)
         self.__core__.set_conf(kwargs)
         self.__core__.initEnd()
+        self.set_request(request)
 
-        if 'request' in kwargs:
-            self.request = kwargs['request']
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [REQUEST] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def set_request(self, request):
+        """
+            @description: Set request in response.
+        """
+        self.__core__.request = request
 
+    def get_request(self, fake=False):
+        """
+            @description: Get request in response.
+        """
+        return self.__core__.request
+    
+    def has_request(self):
+        """
+            @description: Has request in response.
+        """
+        return self.__core__.request is not None
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [INTERFACE] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def get_interface(self):
+        """
+            @description: Get interface in request.
+        """
+        return self.__core__.request.interface
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [SITE] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def get_site(self):
+        """
+            @description: Get site in request.
+        """
+        if self.has_request():
+            request = self.get_request()
+            # get host from request
+            host = request.get_host()
+            return 
+        print ('####*****************####')
+
+    def get_host(self) -> str:
+        """
+            @description: Get site in request.s
+        """
+        host = 'localhost:4200'
+        if self.has_request():
+            request = self.get_request()
+            host = request.get_host()
+        print ('#############3')
+        print (host)
+        return host
+
+    def get_request_protocol(self) -> str:
+        """
+            @description: Get site in request.
+        """
+        protocol = 'http'
+        if self.has_request():
+            request = self.get_request()
+            protocol = request.scheme
+
+        print (protocol)
+        return protocol
+
+    def create_client_url(self, pathname: str) -> str:
+        """
+            @description: Get site in request.
+        """
+        print (self.get_request_protocol() + '://' )
+        self.get_request_protocol() + '://' + os.path.join(self.get_host(), pathname)
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def restResponse(self, globals, request, function):
         """
             @description: Il s'agit d'une interface REST adapter a ma logique de programmation.
@@ -161,7 +240,7 @@ class Response(object):
                 err[item[0]] = ['required']    
                 continue
             err[item[0]] = item[1]
-            print (item[1][0])
+            
         self.form_error = err
         return self.error(404, "Invalid form post.")
 
@@ -310,10 +389,9 @@ class ResponseTest(TestCase):
         self.assertFalse(value.get('success'))
         return value
     
-def get_fake_response():
+def get_fake_response(profile=None):
     """
         @description: Return a fake response.
     """
-    fake_request = generate_fake_request()
-    return Response(request=fake_request)    
-    
+    fake_request = generate_fake_request(profile=profile)
+    return Response(request=fake_request)

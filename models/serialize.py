@@ -74,9 +74,7 @@ def serializer__serialize__(fonction):
 
                     serialized.update(new_data_serialized)
                 except Exception as e:
-                    print (e)
-                    print ('##################### serialize')
-                    print (self._TRANSLATE)
+                    pass
             else: 
                 new = model_to_dict(self._TRANSLATE)
                 serialized.update(new)

@@ -44,3 +44,12 @@ def RequestPost(request):
         return json.loads(request.body)
     except:
         return request.POST
+
+def httpGetKey(request, key):
+    """
+        @description: Get POST value, if not found, get QueryParams value.
+    """
+    value = request.POST.get(key, '>>NOTFOUND<<')
+    if value != '>>NOTFOUND<<':
+        return request.GET.get(key)
+    return value

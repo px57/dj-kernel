@@ -36,6 +36,4 @@ def serialize_phone_number(request, phone_number):
 
 def serialize_size_video(request, file):
     """Récupérer la tailles de cette éléments."""
-    print ('function::kernel.media.serialize_size_video');
-
     return {'x': 0, 'y': 0}

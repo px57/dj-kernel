@@ -19,11 +19,11 @@ class RulesStack:
         """
         self.rules[ruleClass.label] = ruleClass
 
-    def get_rule(self, label):
+    def get_rule(self, interface_name: str):
         """
             @description: Get the rule or raise an exception.
         """
-        if label in self.rules:
-            return self.rules[label]
+        if interface_name in self.rules:
+            return self.rules[interface_name]
         
-        raise Exception('The rule with the label: ' + label + ' does not exist')
+        raise Exception('The rule with the interface_name: ' + interface_name + ' does not exist')

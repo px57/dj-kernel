@@ -1,10 +1,13 @@
 
+from kernel.interfaces.env import DEFAULT_INTERFACE_NAME
 
 
 class InterfaceManager(object): 
     """
         @description: This class manages the interfaces, with multiple functions. 
     """
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [LOG] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def _interface__initlog(self):
         """
             @description: Create the interface list log. 
@@ -32,6 +35,8 @@ class InterfaceManager(object):
             'args': args,
             'kwargs': kwargs,
         })
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [ASSERT] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
     def _interface__assert__function_executed(self, function_name):
         """
@@ -43,3 +48,14 @@ class InterfaceManager(object):
                 return True
         return False
     
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [LABEL] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    
+    @property
+    def label(self):
+        """
+            @description: The label of the rule
+        """
+        return DEFAULT_INTERFACE_NAME
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
