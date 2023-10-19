@@ -33,18 +33,12 @@ def strapi_post(path, data, request=None):
     if request is not None:
         headers['Authorization'] = request.META['HTTP_AUTHORIZATION']
 
-    print (headers)
-
-    print (url)
-    print (data)    
-    
     req = requests.post(
         url, 
         json=data,
         headers=headers
     )
     
-    print (req.content)
     if req.status_code == 200:
         return req.json()
     return None

@@ -127,7 +127,6 @@ def sendinblue__send_email(template_id, profile, subject='My Subject'):
     """
         @description: Send an email campaign now, based on a campaign id
     """
-    print ('##########' * 123)
     instance = get_instance()
     api_instance = sib_api_v3_sdk.TransactionalEmailsApi(sib_api_v3_sdk.ApiClient(instance))
 
@@ -170,7 +169,6 @@ def sendinblue__send_email(template_id, profile, subject='My Subject'):
 
     try:
         api_response = api_instance.send_transac_email(send_smtp_email)
-        pprint(api_response)
     except ApiException as e:
         print("Exception when calling SMTPApi->send_transac_email: %s\n" % e)
 
@@ -361,10 +359,6 @@ class EmailTemplateList:
         # try:
         templates = get_template()
         self.__load_totemplates(templates)
-        # except Exception as e:
-        #     print (e)
-        #     print ('Error while loading templates from Sendinblue')
-        #     self.__load_tofile_cache()
     
     def __load_tofile_cache(self):
         """
