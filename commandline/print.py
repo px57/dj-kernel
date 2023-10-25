@@ -17,7 +17,8 @@ def print_title(message):
     """
         @description
     """
-    # print (message)
+    if type(message) != str:
+        message = str(message)
     print (bcolors.BOLD + bcolors.OKGREEN + message + bcolors.ENDC)
 
 
