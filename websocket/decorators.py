@@ -2,7 +2,7 @@ from django.core.exceptions import PermissionDenied
 import json
 from kernel.websocket.base import websocket__readqueryparams
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from profiles.models import Profile
 
 def websocket__simplifier(function):
@@ -35,7 +35,12 @@ def websocket__simplifier(function):
         """
             @description:
         """
-        return Profile.objects.filter(user=scope['user']).first()
+
+        if isinstance(scope['user'], AnonymousUser):
+            return None
+
+        return Profile.objects.filter(user=scope['user'].id).first()
+        # return Profile.objects.filter(user=scope['user']).first()
 
     def wrap(self, *args, **kwargs):
         self.scope['GET'] = websocket__readqueryparams(self.scope)
