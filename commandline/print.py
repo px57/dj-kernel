@@ -22,7 +22,7 @@ def print_title(message):
     print (bcolors.BOLD + bcolors.OKGREEN + message + bcolors.ENDC)
 
 
-def run_cmd_after_print(cmd):
+def run_cmd_after_print(cmd, exec=False):
     """
         @description: 
     """
