@@ -4,6 +4,7 @@
 from django.test import TestCase
 from kernel.http.request import generate_fake_request
 from sites.models import Site
+from kernel.http.classobjects import Url
 
 import pprint
 import os
@@ -154,12 +155,23 @@ class Response(object):
             protocol = request.scheme
         return protocol
 
-    def create_client_url(self, pathname: str) -> str:
+    def create_client_url(
+        self, 
+        pathname: str,
+        queryParams: dict = None,
+        ) -> str:
         """
             @description: Get site in request.
+            @param.pathname: The pathname of the url.   
+            @param.queryParams: The query params of the url.
         """
-        protocol = 'http'
-        return self.get_request_protocol() + '://' + os.path.join(self.get_host(), pathname)
+        url = Url(
+            protocol=self.get_request_protocol(),
+            host=self.get_host(),
+            pathname=pathname,
+            queryParams=queryParams,
+        )
+        return url.compose_url()
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def restResponse(self, globals, request, function):
