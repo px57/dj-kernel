@@ -13,7 +13,7 @@ def yourfunction(request):
 #### \[ERROR]
 
 ```python
-res.error(\error=None, code_error=None, error_descr=None)
+res.error(error=None, code_error=None, error_descr=None)
 ```
 
 #### \[FORM\_ERROR]
