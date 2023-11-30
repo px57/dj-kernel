@@ -131,8 +131,7 @@ class Response(object):
             # get host from request
             host = request.get_host()
             return 
-        print ('####*****************####')
-
+        
     def get_host(self) -> str:
         """
             @description: Get site in request.s
@@ -141,8 +140,6 @@ class Response(object):
         if self.has_request():
             request = self.get_request()
             host = request.get_host()
-        print ('#############3')
-        print (host)
         return host
 
     def get_request_protocol(self) -> str:

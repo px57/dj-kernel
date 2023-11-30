@@ -51,7 +51,6 @@ def post(path, data, request=None):
         headers=headers
     )
     
-    print (req.content)
     if req.status_code == 200:
         return req.json()
     return None
@@ -103,7 +102,6 @@ class StrapiGetEmbed:
         """
             @description:
         """
-        print ('------------------------------------')
         params = {
             'data': kwargs,
         }
@@ -113,7 +111,6 @@ class StrapiGetEmbed:
         """
             @description:
         """
-        print ('------------------------------------')
         for item in self.result['data']:
             params = {
                 'data': kwargs,
@@ -124,10 +121,7 @@ class StrapiGetEmbed:
         """
             @description:
         """
-        print ('------------------------------------')
-        print ('url: ' + self.url)
-        print ('headers: ' + str(self.headers))
-        print ('result: ' + str(self.result))
+        pass
 
     def __str__(self):
         """
