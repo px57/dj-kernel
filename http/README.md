@@ -70,6 +70,12 @@ res.get_host()
 res.get_request_protocol()
 ```
 
+#### \[GET\_REQUEST]
+
+```
+res.get_request()
+```
+
 #### \[CREATE\_CLIENT\_URL]
 
 ```python
