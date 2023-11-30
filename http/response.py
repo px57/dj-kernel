@@ -260,7 +260,9 @@ class Response(object):
 
 
     def update(self, *args):
-        """Dict.update fonction."""
+        """
+            @description: Dict.update fonction.
+        """
         self.__core__.content.update(*args)
 
     def __isCoreElem__(self, key):
