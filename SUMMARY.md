@@ -2,5 +2,5 @@
 
 * [Kernel](README.md)
 * [Signal](signal/README.md)
-* [views](views/readme.md)
-* [http](http/README.md)
+* [Views](views/readme.md)
+* [Http](http/README.md)

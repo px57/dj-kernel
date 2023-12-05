@@ -8,9 +8,7 @@ description: >-
 
 
 
-#### \[VOCABULAIRE]
-
-\[CREATE\_EVENT]
+#### \[CREATE\_EVENT]
 
 Pour creer un nouveaux signal ont doit tout d'abord pour une question de saine organisation lui creer un fichier signal.py  a l'interieur de l'application qui va l'executer ont fait donc.&#x20;
 
@@ -41,6 +39,10 @@ Ensuite devant les fonctions que l'ont tient a appeller lors de l'execution de c
 
 le binder.&#x20;
 
+#### \[BIND]
+
 ```
 ```
+
+#### \[EXECUTE]
 
