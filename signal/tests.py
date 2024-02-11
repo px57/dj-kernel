@@ -1,13 +1,8 @@
 
 import unittest
-from event import SIGNAL_CENTER
+from .event import SIGNAL_CENTER
 
-SIGNAL_CENTER.create(
-    'profile.load_me',
-    description="""
-        Fetch all the signal information of the user. 
-    """
-)
+
 
 class TestSignal(unittest.TestCase):
     """
@@ -97,4 +92,11 @@ class TestSignal(unittest.TestCase):
         SIGNAL_CENTER.show_all_events()
 
 
-unittest.main()
+if __name__ == '__main__':
+    SIGNAL_CENTER.create(
+        'profile.load_me',
+        description="""
+            Fetch all the signal information of the user. 
+        """
+    )
+    unittest.main()
