@@ -27,3 +27,9 @@ class RulesStack:
             return self.rules[interface_name]
         
         raise Exception('The rule with the interface_name: ' + interface_name + ' does not exist')
+
+    def models_choices(self):
+        """
+        It returns the models choices
+        """
+        return [(rule.label, rule.label) for rule in self.rules.values()]

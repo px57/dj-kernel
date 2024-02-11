@@ -8,11 +8,11 @@ class Url:
 
     def __init__(
         self, 
-        full_url: str | None = None,
-        protocol: str | None = None,
-        host: str | None = None,
-        pathname: str | None = None,
-        queryParams: dict | None = None
+        full_url: str or None = None,
+        protocol: str or None = None,
+        host: str or None = None,
+        pathname: str or None = None,
+        queryParams: dict or None = None
     ) -> None:
         """
             @description:
