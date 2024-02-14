@@ -42,3 +42,31 @@ def get_list_models_to_file():
     for model_file in models_files:
         response.extend(get_models_to_file(model_file))
     return response
+
+def choicesListRelatedModels():
+    """
+        @description:
+    """
+    response = ()
+    models_files = fetch_all_models_file()
+    remove = [
+        'BaseMetadataModel',   
+    ]
+    for model_file in models_files:
+        ls = get_models_to_file(model_file)
+        for model in ls:
+            if model.__name__ in remove:
+                continue
+            response += ((model.__module__ + '.' + model.__name__, model.__name__),)
+    return response
+
+def selectedChoicesListRelatedModels(selected):
+    """
+        @description: 
+    """
+    choices = choicesListRelatedModels()
+    response = ()
+    for choice in choices:
+        if choice[0] == selected:
+            response += (choice,)
+    return response
