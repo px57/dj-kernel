@@ -37,7 +37,7 @@ SIGNAL_CENTER.create(
 
 Ensuite devant les fonctions que l'ont tient a appeller lors de l'execution de cette fonction ont ajoute&#x20;
 
-le binder.&#x20;
+le binder 
 
 #### \[BIND]
 

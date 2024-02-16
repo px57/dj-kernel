@@ -2,8 +2,6 @@
 import unittest
 from .event import SIGNAL_CENTER
 
-
-
 class TestSignal(unittest.TestCase):
     """
         @description: 
