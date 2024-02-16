@@ -48,4 +48,3 @@ class BaseMetadataModel(models.Model):
         abstract = True
         get_latest_by = 'updated_on'
         ordering = ['-updated_on']
-

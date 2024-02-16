@@ -17,7 +17,7 @@ def admin_path_model_change(
 
     modelpath = modelpath.replace('.', '/')
     modelpath = modelpath.lower()
-    return '/admin/{0}/{1}/change/'.format(
+    return u'/admin/{0}/{1}/change/'.format(
         modelpath, 
         relatedModelId
     )
