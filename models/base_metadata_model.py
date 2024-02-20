@@ -14,6 +14,15 @@ class BaseMetadataModel(models.Model):
         super().__init__(*args, **kwargs)
 
     activated = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(
+        'created at',
+        null=True,
+        help_text="The object's creation date/time",
+        auto_now=False,
+        auto_now_add=True,
+    )
+    
     created_on = models.DateTimeField(
         'created on',
         null=True,
