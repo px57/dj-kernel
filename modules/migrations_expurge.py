@@ -52,5 +52,5 @@ def migration_expurge():
                 os.remove(os.path.join(migrations_path, file))
 
     clean_pyc()
-    makemigrations()
-    migrate()
+    # makemigrations()
+    # migrate()
