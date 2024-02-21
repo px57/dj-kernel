@@ -7,6 +7,8 @@ class InterfaceManager(object):
         @description: This class manages the interfaces, with multiple functions. 
     """
 
+    DEBUG = False
+
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [LOG] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def _interface__initlog(self):
         """
@@ -59,3 +61,27 @@ class InterfaceManager(object):
         return DEFAULT_INTERFACE_NAME
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [GPM] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def gpm_pre_init(self):
+        """
+            @description: The gpmInit method.
+        """
+        self._interface__log(function_name='gpm_pre_init')
+
+    def gpm_init(self):
+        """
+            @description: The gpmInit method.
+        """
+        self._interface__log(function_name='gpm_init')
+
+    def gpm_post_init(self):
+        """
+            @description: The gpmInit method.
+        """
+        self._interface__log(function_name='gpm_post_init')
+
+    def gpm_run(self):
+        """
+        The gpmRun method.
+        """
+        pass
