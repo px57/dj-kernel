@@ -1,19 +1,26 @@
 
 
-from django.conf import settings
+# from django.conf import settings
 import os
+
 
 def get_migrations_path():
     """
         @description: Return the list of all migrations dir to the project.
     """
     list_migrations_path = []
-    for app in settings.INSTALLED_APPS:
-        if app != 'kernel':
-            dirapp = app.replace('.', '/')
-            path = os.path.join(dirapp, 'migrations')
-            list_migrations_path.append(path)
+    # os.walk
+    for root, dirs, files in os.walk('.'):
+        if 'migrations' in dirs:
+            list_migrations_path.append(os.path.join(root, 'migrations'))
+    
     return list_migrations_path
+    # for app in settings.INSTALLED_APPS:
+    #     if app != 'kernel':
+    #         dirapp = app.replace('.', '/')
+    #         path = os.path.join(dirapp, 'migrations')
+    #         list_migrations_path.append(path)
+    # return list_migrations_path
 
 def clean_pyc():
     """
@@ -51,6 +58,4 @@ def migration_expurge():
             if file != '__init__.py':
                 os.remove(os.path.join(migrations_path, file))
 
-    clean_pyc()
-    makemigrations()
-    migrate()
+    # clean_pyc()
