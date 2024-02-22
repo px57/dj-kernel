@@ -423,3 +423,16 @@ def get_fake_response(profile=None):
     """
     fake_request = generate_fake_request(profile=profile)
     return Response(request=fake_request)
+
+def load_response(function, *args, **kwargs):
+    """
+    Charge le profile à l'intérieurs des éléments.
+    """
+    def wrap(request, *args, **kwargs):
+        res = Response(request=request)
+        # TODO: Ajouter un systeme pour pouvoir charger l'interface, qui va servir a parametre l'execution de la view.
+        return function(res, request, *args, **kwargs)
+    
+    wrap.__doc__ = function.__doc__
+    wrap.__name__ = function.__name__
+    return wrap
