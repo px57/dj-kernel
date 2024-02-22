@@ -68,7 +68,7 @@ class InterfaceManager(object):
         """
         self._interface__log(function_name='gpm_pre_init')
 
-    def gpm_init(self):
+    def gpm_init(self, *args, **kwargs):
         """
             @description: The gpmInit method.
         """
