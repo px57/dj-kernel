@@ -99,12 +99,12 @@ class StackSwitcher:
     
 res = None
 
-MESSAGE_SWITCHER = StackSwitcher()
-MESSAGE_SWITCHER.set_process(lambda interfaceSwitcher, function_name, **kwargs: print('Process'))
-send = MESSAGE_SWITCHER.send(
-    'interfac_key',
-    res,
-    {
-        'message': 'Hello World'
-    }
-)
+# MESSAGE_SWITCHER = StackSwitcher()
+# MESSAGE_SWITCHER.set_process(lambda interfaceSwitcher, function_name, **kwargs: print('Process'))
+# send = MESSAGE_SWITCHER.send(
+#     'interfac_key',
+#     res,
+#     {
+#         'message': 'Hello World'
+#     }
+# )

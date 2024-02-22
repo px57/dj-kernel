@@ -1,5 +1,6 @@
 
 
+from django.conf import settings
 from django.dispatch import receiver
 from kernel.signal.boot import model_ready
 from copy import deepcopy
@@ -24,10 +25,19 @@ class RulesStack:
             @description: This function sets the rule 
         """
         self.rules[ruleClass.label] = ruleClass
+        self.__run_pre_init(ruleClass)
 
-        # -> execute gpmInit function
-        if hasattr(ruleClass, 'gpm_pre_init'):
+    def __run_pre_init(self, ruleClass):
+        """
+            @description: This function runs the pre init function
+        """
+        try: 
             ruleClass.gpm_pre_init()
+        except:
+            try:
+                ruleClass().gpm_pre_init()
+            except:
+                pass
 
     def get_rule(self, interface_name: str):
         """
@@ -71,13 +81,13 @@ class RulesStack:
         """
         return [rule for rule in self.rules.values()]
     
-@receiver(model_ready)
 def model_ready(*args, **kwargs):
     """
     @description: This function is called when the model is ready
     """
-    print ('model ready###' * 10)
     for stack in ALL_STACK:
         for rule in stack.list_rules():
-            if hasattr(rule, 'gpm_init'):
+            try:
                 rule.gpm_init()
+            except:
+                rule().gpm_init()
