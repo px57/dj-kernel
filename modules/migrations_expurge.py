@@ -58,4 +58,6 @@ def migration_expurge():
             if file != '__init__.py':
                 os.remove(os.path.join(migrations_path, file))
 
-    # clean_pyc()
+    clean_pyc()
+    # makemigrations()
+    # migrate()
