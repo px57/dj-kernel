@@ -12,6 +12,10 @@ class RulesStack:
         @description: Il s'agit ici d'une pile de règles, d'interface.
     """
 
+    protected_name = [
+        'HELP' # Is used to display the list of interfaces rules with the help command. 
+    ]
+
     def __init__(self) -> None:
         """
             @description: 
@@ -22,10 +26,19 @@ class RulesStack:
 
     def set_rule(self, ruleClass):
         """
-            @description: This function sets the rule 
+        Set the rule in the stack.
         """
+        if ruleClass.label in self.protected_name:
+            raise Exception('The name: ' + ruleClass.label + ' is protected')
+        
         self.rules[ruleClass.label] = ruleClass
         self.__run_pre_init(ruleClass)
+
+    def add_rule(self, ruleClass):
+        """
+        Add the rule in the stack.
+        """
+        return self.set_rule(ruleClass)
 
     def __run_pre_init(self, ruleClass):
         """
@@ -38,6 +51,14 @@ class RulesStack:
                 ruleClass().gpm_pre_init()
             except:
                 pass
+
+    def help(self):
+        """
+        Return json help
+        """
+        return {
+            
+        }
 
     def get_rule(self, interface_name: str):
         """
