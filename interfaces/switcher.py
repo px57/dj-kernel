@@ -23,6 +23,8 @@
     Regarder si $INTERFACE_KEY existe, si oui, il va appeler la methode send de chaque interface.
 """
 
+from kernel.message.error import raise_error
+
 class InterfaceSwitcher:
     """
     Il s'agit ici des interfaces qui ont ete trouver dans les stack.
@@ -77,23 +79,30 @@ class StackSwitcher:
         """
             Permet de recuperer une methode d'une interface
         """
-        def wrapper(*args, **kwargs):
-            callinterface = []
-            interface_name = args[0]
+        def wrapper(**kwargs):
+            _inSwitch = kwargs.get('_inSwitch', False)
+            res = kwargs.get('res', False)
+            help = kwargs.get('help', False)
+
+            if not _inSwitch:
+                raise_error('You must provide a _inSwitch object')
+                
+            if not res:
+                raise_error('You must provide a res object')
+
+            switcher_res = {}
             for stack in self.stack_switch:
-                if stack.not_has_rule(interface_name):
-                    continue
-                callinterface.append(stack.get_rule(interface_name))
-            
-            interfaceSwitcher = InterfaceSwitcher(callinterface)
+                _in = stack.get_rule(_inSwitch)
+                if not hasattr(_in, function_name):
+                    raise AttributeError('The function: ' + function_name + ' does not exist in the stack: ' + _in().__class__.__name__)
+                switcher_res[_in().__classpath__] = getattr(_in(), function_name)(**kwargs)
 
-            if self.execute_time == 'before':
-                interfaceSwitcher.__getattr__(function_name)(**kwargs)
+            if help:
+                for resp in switcher_res:
+                    print ('*** Switcher: ' + resp + ' ***')
+                    print (resp)
+            return switcher_res
 
-            if self.has_process():
-                self.process(interfaceSwitcher, function_name, **kwargs)
 
-            if self.execute_time == 'after':
-                interfaceSwitcher.__getattr__(function_name)(**kwargs)
         return wrapper
     

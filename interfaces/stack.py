@@ -60,13 +60,21 @@ class RulesStack:
             
         }
 
-    def get_rule(self, interface_name: str):
+    def get_rule(self, interface_name: str, **kwargs):
         """
-            @description: Get the rule or raise an exception.
+        Get the rule or raise an exception.
+
+        Args:
+            interface_name (str): The interface name
+            kwargs.raise_error_enable (bool): If the error should be raised
         """
+        raise_error_enable = kwargs.get('raise_error_enable', True)
+
         if interface_name in self.rules:
             return deepcopy(self.rules[interface_name])
         
+        if not raise_error_enable:
+            return None
         raise Exception('The rule with the interface_name: ' + interface_name + ' does not exist')
 
     def run_rule(self, interface_name: str, *args, **kwargs):

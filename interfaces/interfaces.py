@@ -12,6 +12,13 @@ class InterfaceManager(object):
 
     DEBUG = False
 
+    @property
+    def __classpath__(self):
+        """
+            @description: The interface path.
+        """
+        return self.__class__.__module__ + '.' + self.__class__.__name__
+
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [LOG] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def _interface__initlog(self):
         """
