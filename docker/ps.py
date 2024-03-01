@@ -8,6 +8,7 @@ def docker_ps():
     """
         @description: 
     """
+    print (docker)
     # Connexion au client Docker
     client = docker.from_env()
 
