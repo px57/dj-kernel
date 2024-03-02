@@ -32,6 +32,11 @@ class RulesStack:
             raise Exception('The name: ' + ruleClass.label + ' is protected')
         
         # -> TODO: check if the label is 250 characters. maximum
+        try:
+            ruleClass()
+        except:
+            raise Exception('The rule class must be callable')
+        
         self.rules[ruleClass.label] = ruleClass
         self.__run_pre_init(ruleClass)
 
