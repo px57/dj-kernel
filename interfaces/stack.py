@@ -1,5 +1,6 @@
 
 
+from kernel.interfaces.env import DEFAULT_INTERFACE_NAME
 from django.conf import settings
 from django.dispatch import receiver
 from kernel.signal.boot import model_ready
@@ -124,8 +125,9 @@ class RulesStack:
         choices = []
         for rule in self.rules.values():
             rule = rule()
+            if rule.label is DEFAULT_INTERFACE_NAME:
+                continue
             choices.append((rule.label, rule.label))
-        # return [(rule.label, rule.label) for rule in self.rules.values()]
         return choices
     
     def list_rules(self):
