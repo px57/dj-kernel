@@ -94,6 +94,33 @@ class Response(object):
         self.__core__.initEnd()
         self.set_request(request)
 
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [stack] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def set_stack(self, stack):
+        """
+            @description: Set stack in response.
+        """
+        self.__core__.stack = stack
+
+    def get_stack(self):
+        """
+            @description: Get stack in response.
+        """
+        return self.__core__.stack
+    
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [INTERFACE] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    def set_interface(self, interface):
+        """
+            @description: Set interface in response.
+        """
+        self.__core__.interface = interface
+
+    def interface(self):
+        """
+            @description: Get interface in response.
+        """
+        return self.__core__.interface
+    
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [REQUEST] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def set_request(self, request):
         """
@@ -424,15 +451,66 @@ def get_fake_response(profile=None):
     fake_request = generate_fake_request(profile=profile)
     return Response(request=fake_request)
 
-def load_response(function, *args, **kwargs):
+
+def get_interface_name_in_request(request):
+    """
+    Get the interface in request.
+    """
+    def __get_interface_name_in_request(request):
+        """
+        Get the interface in request.
+        """
+        if request.method == 'GET':
+            return request.GET.get('_in')
+        elif request.method == 'POST':
+            try:
+                return json.loads(request.body).get('_in')
+            except Exception:
+                return request.POST.get('_in')
+            
+    interface: str | None = __get_interface_name_in_request(request)
+    if type(interface) == str:
+        interface = interface.upper()
+    return interface
+
+def load_help(res=None):
     """
     Charge le profile à l'intérieurs des éléments.
     """
-    def wrap(request, *args, **kwargs):
-        res = Response(request=request)
-        # TODO: Ajouter un systeme pour pouvoir charger l'interface, qui va servir a parametre l'execution de la view.
-        return function(res, request, *args, **kwargs)
-    
-    wrap.__doc__ = function.__doc__
-    wrap.__name__ = function.__name__
-    return wrap
+    stack = res.get_stack()
+    list_rules = stack.list_rules()
+    res.title = "Help"
+    res.interface_list = {}
+    for rule in list_rules:
+        if not hasattr(rule, 'description'):
+            res.interface_list[rule.label] = 'No description'
+            continue
+        res.interface_list[rule.label] = rule.description
+
+def load_response(stack=None):
+    def decorator_load_response(function, *args,    **kwargs):
+        """
+        Charge le profile à l'intérieurs des éléments.
+        """
+        def wrap(request, *args, **kwargs):
+            res = Response(request=request)
+            res.set_stack(stack)
+            kwargs['res'] = res
+
+            _in = get_interface_name_in_request(request)
+            if _in == 'HELP':
+                load_help(res)
+                return res.error('HELP')
+
+            if stack.has_rule(_in):
+                print ('oeauoe')
+                res.set_interface(stack.get_rule(_in))
+            else: 
+                return res.error('The interface does not exist.')
+                
+            return function(request, *args, **kwargs)
+        
+        wrap.__doc__ = function.__doc__
+        wrap.__name__ = function.__name__
+        return wrap
+    return decorator_load_response
