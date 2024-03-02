@@ -31,6 +31,7 @@ class RulesStack:
         if ruleClass.label in self.protected_name:
             raise Exception('The name: ' + ruleClass.label + ' is protected')
         
+        # -> TODO: check if the label is 250 characters. maximum
         self.rules[ruleClass.label] = ruleClass
         self.__run_pre_init(ruleClass)
 

@@ -10,7 +10,20 @@ class InterfaceManager(object):
         @description: This class manages the interfaces, with multiple functions. 
     """
 
+    """
+    Set the debug mode.
+    """
     DEBUG = False
+
+    """
+    The response object.
+    """
+    res = None
+
+    """
+    The request object.
+    """
+    request = None
 
     @property
     def __classpath__(self):

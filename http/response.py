@@ -34,6 +34,8 @@ class ResponseCore:
             'success': False,
         }
         self.request = None
+        self.interface = None
+        self.stack = None
 
     def initEnd(self):
         """
@@ -109,11 +111,7 @@ class Response(object):
     
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [INTERFACE] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-    def set_interface(self, interface):
-        """
-            @description: Set interface in response.
-        """
-        self.__core__.interface = interface
+
 
     def interface(self):
         """
@@ -165,7 +163,15 @@ class Response(object):
         """
             @description: Get interface in request.
         """
-        return self.__core__.request.interface
+        if self.__core__.interface is None:
+            raise Exception("The interface is not defined in the response.")
+        return self.__core__.interface
+    
+    def set_interface(self, interface):
+        """
+            @description: Set interface in response.
+        """
+        self.__core__.interface = interface
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [SITE] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def get_site(self):
@@ -456,17 +462,9 @@ def get_interface_name_in_request(request):
     """
     Get the interface in request.
     """
-    def __get_interface_name_in_request(request):
-        """
-        Get the interface in request.
-        """
-        if request.method == 'GET':
-            return request.GET.get('_in')
-        elif request.method == 'POST':
-            try:
-                return json.loads(request.body).get('_in')
-            except Exception:
-                return request.POST.get('_in')
+    if '_in' in request.GET:
+        return request.GET.get('_in').upper()
+    return None
             
     interface: str | None = __get_interface_name_in_request(request)
     if type(interface) == str:
@@ -496,18 +494,25 @@ def load_response(stack=None):
             res = Response(request=request)
             res.set_stack(stack)
             kwargs['res'] = res
-
-            _in = get_interface_name_in_request(request)
-            if _in == 'HELP':
+            print ('oeuaoeuaoeuaoeuaoeuaoeuaoeuao')
+            print ('pass 1')
+            _in_label = get_interface_name_in_request(request)
+            print (_in_label)
+            if _in_label == 'HELP':
                 load_help(res)
                 return res.error('HELP')
 
-            if stack.has_rule(_in):
+            print ('pass 2')
+            if stack.has_rule(_in_label):
                 print ('oeauoe')
-                res.set_interface(stack.get_rule(_in))
+                _in = stack.get_rule(_in_label)()
+                _in.request = request
+                _in.res = res
+                res.set_interface(_in)
             else: 
                 return res.error('The interface does not exist.')
-                
+            
+            print ('aoeuaoeuaoeuaoeuaoeuaoeu')
             return function(request, *args, **kwargs)
         
         wrap.__doc__ = function.__doc__
