@@ -71,9 +71,22 @@ class RulesStack:
         Get the rule or raise an exception.
 
         Args:
-            interface_name (str): The interface name
+            interface_name (str | class): The interface name
             kwargs.raise_error_enable (bool): If the error should be raised
         """
+        def __get_interface_name(interface_name):
+            """
+            Get the interface name
+            """
+            if isinstance(interface_name, str):
+                return interface_name
+            try:
+                return interface_name().label
+            except:
+                return interface_name.label
+
+        interface_name = __get_interface_name(interface_name)
+
         raise_error_enable = kwargs.get('raise_error_enable', True)
 
         if interface_name in self.rules:
@@ -108,7 +121,12 @@ class RulesStack:
         """
         It returns the models choices
         """
-        return [(rule.label, rule.label) for rule in self.rules.values()]
+        choices = []
+        for rule in self.rules.values():
+            rule = rule()
+            choices.append((rule.label, rule.label))
+        # return [(rule.label, rule.label) for rule in self.rules.values()]
+        return choices
     
     def list_rules(self):
         """
