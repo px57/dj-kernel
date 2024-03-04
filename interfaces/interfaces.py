@@ -25,6 +25,16 @@ class InterfaceManager(object):
     """
     request = None
 
+    """
+    allow flag to enable or disable the rule.
+    """
+    allow = True
+
+    """
+    Description of the rule.
+    """
+    description = 'No description'
+
     @property
     def __classpath__(self):
         """

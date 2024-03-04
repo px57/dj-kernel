@@ -22,7 +22,14 @@ def switcher_send_message(
     ):
     """
     Send message to the message switcher.
-
+    Usage: 
+        switcher_send_message(
+            _inSwitch=MESSAGE_SWITCHER,
+            res=res,
+            sendTo=sendTo,
+            sendBy=sendBy,
+            params=params,
+        )
     Args:
         _inSwitch: The switcher object.
         res: The response object.

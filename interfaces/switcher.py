@@ -92,6 +92,8 @@ class StackSwitcher:
 
             switcher_res = {}
             for stack in self.stack_switch:
+                if not stack.has_rule(_inSwitch):
+                    continue
                 _in = stack.get_rule(_inSwitch)
                 if not hasattr(_in, function_name):
                     raise AttributeError('The function: ' + function_name + ' does not exist in the stack: ' + _in().__class__.__name__)

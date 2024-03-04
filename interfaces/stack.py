@@ -5,7 +5,10 @@ from django.conf import settings
 from django.dispatch import receiver
 from kernel.signal.boot import model_ready
 from copy import deepcopy
+import inspect
 
+
+import importlib
 ALL_STACK = []
 
 class RulesStack:
@@ -24,6 +27,26 @@ class RulesStack:
         global ALL_STACK
         self.rules = {}
         ALL_STACK.append(self)
+
+    def get_stack_path(self):
+        """
+        Get the name of the stack
+        """
+        # Obtenir la frame de la pile d'appels
+        frame = inspect.currentframe()
+        # Remonter d'un niveau pour obtenir l'endroit où la classe a été instanciée
+        caller_frame = frame.f_back
+        # Obtenir le nom du fichier et le numéro de ligne du caller
+        filename = caller_frame.f_code.co_filename
+        line_number = caller_frame.f_lineno
+        print(f"Cette classe a été instanciée dans : {filename} à la ligne {line_number}")
+        return filename
+    
+    def get_stack_name(self):
+        """
+        Get the name of the stack
+        """
+        path = self.get_stack_path()
 
     def set_rule(self, ruleClass):
         """
@@ -95,7 +118,10 @@ class RulesStack:
         
         if not raise_error_enable:
             return None
-        raise Exception('The rule with the interface_name: ' + interface_name + ' does not exist')
+        message = """
+            The interface: """ + interface_name + """ does not exist in the stack: """ + self.get_stack_path()
+
+        raise Exception(message)
 
     def run_rule(self, interface_name: str, *args, **kwargs):
         """

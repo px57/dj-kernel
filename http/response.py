@@ -494,17 +494,13 @@ def load_response(stack=None):
             res = Response(request=request)
             res.set_stack(stack)
             kwargs['res'] = res
-            print ('oeuaoeuaoeuaoeuaoeuaoeuaoeuao')
-            print ('pass 1')
             _in_label = get_interface_name_in_request(request)
-            print (_in_label)
+
             if _in_label == 'HELP':
                 load_help(res)
                 return res.error('HELP')
 
-            print ('pass 2')
             if stack.has_rule(_in_label):
-                print ('oeauoe')
                 _in = stack.get_rule(_in_label)()
                 _in.request = request
                 _in.res = res
@@ -512,7 +508,6 @@ def load_response(stack=None):
             else: 
                 return res.error('The interface does not exist.')
             
-            print ('aoeuaoeuaoeuaoeuaoeuaoeu')
             return function(request, *args, **kwargs)
         
         wrap.__doc__ = function.__doc__
