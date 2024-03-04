@@ -1,5 +1,6 @@
 
 
+from kernel.interfaces.service import Service
 from kernel.interfaces.env import DEFAULT_INTERFACE_NAME
 import importlib
 import os
@@ -34,6 +35,17 @@ class InterfaceManager(object):
     Description of the rule.
     """
     description = 'No description'
+
+    """
+    The class to call the service.
+    """
+    gpm_service = None
+
+    def __init__(self, *args, **kwargs):
+        """
+            @description: The constructor of the interface.
+        """
+        self.gpm_service = Service(self)
 
     @property
     def __classpath__(self):

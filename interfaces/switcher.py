@@ -91,10 +91,13 @@ class StackSwitcher:
                 raise_error('You must provide a res object')
 
             switcher_res = {}
+
             for stack in self.stack_switch:
                 if not stack.has_rule(_inSwitch):
                     continue
+
                 _in = stack.get_rule(_inSwitch)
+
                 if not hasattr(_in, function_name):
                     raise AttributeError('The function: ' + function_name + ' does not exist in the stack: ' + _in().__class__.__name__)
                 switcher_res[_in().__classpath__] = getattr(_in(), function_name)(**kwargs)

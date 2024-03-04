@@ -28,6 +28,20 @@ class RulesStack:
         self.rules = {}
         ALL_STACK.append(self)
 
+        # -> get the name of the stack
+        # Obtenir la frame de la pile d'appels
+        frame = inspect.currentframe()
+        # Remonter d'un niveau pour obtenir l'endroit où la classe a été instanciée
+        caller_frame = frame.f_back
+        # Obtenir le nom du fichier et le numéro de ligne du caller
+        filename = caller_frame.f_code.co_filename
+        line_number = caller_frame.f_lineno
+        print(f"Cette classe a été instanciée dans : {filename} à la ligne {line_number}")
+        self.name = filename
+
+    def __str__(self):
+        return self.name
+
     def get_stack_path(self):
         """
         Get the name of the stack
@@ -90,6 +104,21 @@ class RulesStack:
             
         }
 
+    def __get_interface_name(self, interface_name):
+        """
+        Get the interface name
+        1. If the interface name is a string, return the string
+        2. If the interface name is a class, return the
+            2.1. The label of the class
+        3. If the interface name is an instance, return the
+        """
+        if isinstance(interface_name, str):
+            return interface_name
+        try:
+            return interface_name().label
+        except:
+            return interface_name.label
+        
     def get_rule(self, interface_name: str, **kwargs):
         """
         Get the rule or raise an exception.
@@ -98,18 +127,8 @@ class RulesStack:
             interface_name (str | class): The interface name
             kwargs.raise_error_enable (bool): If the error should be raised
         """
-        def __get_interface_name(interface_name):
-            """
-            Get the interface name
-            """
-            if isinstance(interface_name, str):
-                return interface_name
-            try:
-                return interface_name().label
-            except:
-                return interface_name.label
 
-        interface_name = __get_interface_name(interface_name)
+        interface_name = self.__get_interface_name(interface_name)
 
         raise_error_enable = kwargs.get('raise_error_enable', True)
 
@@ -136,6 +155,7 @@ class RulesStack:
         """
             @description: Check if the rule exists
         """
+        interface_name = self.__get_interface_name(interface_name)
         return interface_name in self.rules
     
     def not_has_rule(self, interface_name: str):
