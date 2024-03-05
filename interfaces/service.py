@@ -15,8 +15,10 @@ class Service:
         Args:
             _in (str): The interface to bind to.
         """
-        service = None
+        self.service = None
         self._in = _in
+        self.res = _in.res
+        self.request = _in.request
 
     def load_service(self):
         """
@@ -32,7 +34,8 @@ class Service:
         if not hasattr(service, 'Service'):
             raise AttributeError('The service must have a Service class')
 
-        return service.Service()
+        runned_service = service.Service()
+        return runned_service
 
     def __getattr__(self, name):
         """
@@ -41,7 +44,8 @@ class Service:
         Args:
             name (str): The name of the attribute.
         """
-        self.service = self.load_service()
+        if self.service is None:
+            self.service = self.load_service()
 
         if hasattr(self.service, name):
             return getattr(self.service, name)
@@ -58,6 +62,8 @@ class ServiceManager:
         The constructor method.
         """
         self.config = None
+        self._in = None
+        print ('ServiceManager')
 
     def set_config(self, _in):
         """
@@ -66,6 +72,11 @@ class ServiceManager:
         Args:
             _in (str): The interface to bind to.
         """
+        self.res = _in.res
+        self._in = _in
+        self.request = _in.request
+        
+
         if not hasattr(_in, 'settings_config_name'):
             raise AttributeError('The interface must have a service_config_name attribute')
         
@@ -80,3 +91,11 @@ class ServiceManager:
             raise AttributeError('The settings does not have the attribute ' + _in.settings_config_name + ' with the attribute service_config_name')
         
         self.config = config_list[_in.service_config_name]
+
+        return self.config
+    
+    def get_config(self):
+        """
+        Get the configuration of the service.
+        """
+        return self.config
