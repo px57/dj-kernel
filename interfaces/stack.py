@@ -171,7 +171,7 @@ class RulesStack:
         choices = []
         for rule in self.rules.values():
             rule = rule()
-            if rule.label is DEFAULT_INTERFACE_NAME:
+            if rule.label == DEFAULT_INTERFACE_NAME:
                 continue
             choices.append((rule.label, rule.label))
         return choices
