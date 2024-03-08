@@ -59,18 +59,18 @@ def translateDBQuerySet(**kwargs):
     default_params = {
         'autoload_profile': True,
     }
-    print ('################3 translateDBQuerySet 1')
+    # print ('################3 translateDBQuerySet 1')
     kwargs = {**default_params, **kwargs}
     print (kwargs)
 
     request = kwargs.get('request')
     querySet = kwargs.get('querySet')
-    print ('################3 translateDBQuerySet 1.1')
+    # print ('################3 translateDBQuerySet 1.1')
 
     required(request, 'Request is required to translateDBQuerySet')
     required(querySet, 'QuerySet is required to translateDBQuerySet')
 
-    print ('################3 translateDBQuerySet 1.2')
+    # print ('################3 translateDBQuerySet 1.2')
     language = 'fr'
     if not hasattr(request, 'profile') and kwargs.get('autoload_profile'):
         if request.user.is_authenticated:
@@ -81,35 +81,35 @@ def translateDBQuerySet(**kwargs):
             # TOOD: Load the language from the request.
 
 
-    print ('################3 translateDBQuerySet 2')
+    # print ('################3 translateDBQuerySet 2')
     if language == 'en':
         return querySet
 
-    print ('################3 translateDBQuerySet 3')
+    # print ('################3 translateDBQuerySet 3')
     query = Q()
     for result in querySet:
         query |= Q(translateObject=result)
  
-    print ('################3 translateDBQuerySet 4')
+    # print ('################3 translateDBQuerySet 4')
     if len(querySet) == 0:
         return querySet
     
-    print ('################3 translateDBQuerySet 5')
+    # print ('################3 translateDBQuerySet 5')
     if not translation_model_exists(querySet):
         raise Exception('Translation model does not defined to model class ' + getNameOfModelWithQuerySet(querySet))
 
-    print ('################3 translateDBQuerySet 6')
+    # print ('################3 translateDBQuerySet 6')
     translation_model = querySet[0].translation_model
     dbTranslate = translation_model.objects.filter(query)
 
-    print ('################3 translateDBQuerySet 7')
+    # print ('################3 translateDBQuerySet 7')
     # -> merge the translate with the querySet
     for translate in dbTranslate:
         for result in querySet:
             if result.id == translate.translateObject.id:
                 result._TRANSLATE = translate
 
-    print ('################3 translateDBQuerySet 8')
+    # print ('################3 translateDBQuerySet 8')
     return querySet
 
 

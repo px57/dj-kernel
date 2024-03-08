@@ -141,6 +141,9 @@ class RulesStack:
             The interface: """ + interface_name + """ does not exist in the stack: """ + self.get_stack_path()
 
         raise Exception(message)
+    
+    def get_interface(self, interface_name: str, **kwargs):
+        return self.get_rule(interface_name, **kwargs)
 
     def run_rule(self, interface_name: str, *args, **kwargs):
         """

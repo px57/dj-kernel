@@ -6,9 +6,11 @@ def find_consumers_files():
     """
     consumers_files = []
     for app in settings.INSTALLED_APPS:
-        try:
-            consumers_files.append(__import__(app + ".consumers"))
-        except:
-            pass
+        module = __import__(app)
+        if hasattr(module, "consumers"):
+            consumers_files.append(module)
+    print (consumers_files)
     return consumers_files
+
+
 

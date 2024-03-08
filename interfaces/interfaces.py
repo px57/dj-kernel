@@ -146,3 +146,20 @@ def __init__interface__(app: str, ) -> None:
     for file in listdir:
         if file.endswith('.py'):
             importlib.import_module(module + '.' + file.replace('.py', ''))
+
+def message_addmethod_tointerface(_in, code_method, description_method):
+    """
+    Add a method to the interface.
+
+    Args:
+        _in: The interface object
+        code_method: The code of the method
+        description_method: The description of the method 
+    """
+    message = """
+    Add this event method to the interface """ + _in.label + """ name of class : """ + _in.__classpath__ + """
+    """ + code_method + """
+    """ + description_method + """
+    """
+    print (message)
+    return message

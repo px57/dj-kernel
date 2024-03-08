@@ -243,6 +243,18 @@ class Response(object):
             self.error("The error message")
             self.error(403, "the messages of error")
         """
+        if 'msg__error' in self.__core__.content:
+            error = self.__core__.content['msg__error']
+            del self.__core__.content['msg__error']
+
+        if 'msg__code_error' in self.__core__.content:
+            code_error = self.__core__.content['msg__code_error']
+            del self.__core__.content['msg__code_error']
+
+        if 'msg__error_descr' in self.__core__.content:
+            error_descr = self.__core__.content['msg__error_descr']
+            del self.__core__.content['msg__error_descr']
+        
         self.__core__.content['success'] = False
         update = {}
 
