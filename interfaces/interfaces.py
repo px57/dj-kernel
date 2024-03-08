@@ -131,6 +131,25 @@ class InterfaceManager(object):
         """
         pass
 
+    def gpm__viewparams__run(self):
+        """
+        Get the params and init the interface.
+        """
+        if self.request is None:
+            raise Exception('The request object is None')
+        
+        path = self.request.path
+        split = path.split('/')
+        endpath = split[-2]
+        endpath = endpath.replace('/', '')
+
+        funtion_name = 'gpm__viewparams__' + endpath
+        if not hasattr(self, funtion_name):
+            raise Exception('The method ' + funtion_name + ' not found in the interface ' + self.__classpath__)
+
+        method = getattr(self, funtion_name)
+        return method()
+
 
 def __init__interface__(app: str, ) -> None:
     """

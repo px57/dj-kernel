@@ -1,3 +1,4 @@
 
-from .response import Response, load_response
+from .response import Response
 from .request import RequestPost
+from .decorators import load_response
