@@ -149,6 +149,7 @@ class InterfaceManager(object):
 
         method = getattr(self, funtion_name)
         return method()
+        
 
 
 def __init__interface__(app: str, ) -> None:

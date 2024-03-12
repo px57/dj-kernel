@@ -7,8 +7,8 @@ from kernel.signal.boot import model_ready
 from copy import deepcopy
 import inspect
 
-
 import importlib
+
 ALL_STACK = []
 
 class RulesStack:
@@ -25,8 +25,10 @@ class RulesStack:
             @description: 
         """
         global ALL_STACK
-        self.rules = {}
         ALL_STACK.append(self)
+
+        self.rules = {}
+        self.lock_rules = {}
 
         # -> get the name of the stack
         # Obtenir la frame de la pile d'appels
@@ -36,7 +38,7 @@ class RulesStack:
         # Obtenir le nom du fichier et le numéro de ligne du caller
         filename = caller_frame.f_code.co_filename
         line_number = caller_frame.f_lineno
-        print(f"Cette classe a été instanciée dans : {filename} à la ligne {line_number}")
+        # print(f"Cette classe a été instanciée dans : {filename} à la ligne {line_number}")
         self.name = filename
 
     def __str__(self):
@@ -65,9 +67,15 @@ class RulesStack:
     def set_rule(self, ruleClass):
         """
         Set the rule in the stack.
+
+        Args:
+            ruleClass (class): The rule class
         """
         if ruleClass.label in self.protected_name:
             raise Exception('The name: ' + ruleClass.label + ' is protected')
+        
+        if self.lock_rules.get(ruleClass.label, None) is not None:
+            raise Exception('The rule: ' + ruleClass.label + ' is locked')
         
         # -> TODO: check if the label is 250 characters. maximum
         try:
@@ -184,6 +192,18 @@ class RulesStack:
         It returns the models choices
         """
         return [rule for rule in self.rules.values()]
+    
+    def replace_interface(self, ruleClass):
+        """
+        Merge the interface
+
+        Process:
+        1. Check if the rule exists
+            1.1. If the rule does not exist, set the rule in the lock_rules
+        2. If the rule exists, merge the rule
+        """
+        self.set_rule(ruleClass)
+        self.lock_rules[ruleClass.label] = ruleClass
     
 def model_ready(*args, **kwargs):
     """
