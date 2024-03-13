@@ -187,6 +187,24 @@ class RulesStack:
             choices.append((rule.label, rule.label))
         return choices
     
+    def rules_choices(self, rules: str):
+        """
+        It returns the models choices
+        """
+        choices: list = []
+        for _in in self.rules.values():
+            _in = _in()
+            if not hasattr(_in, rules):
+                continue
+
+            rules_choices_name = rules + '__rules_choices'
+            if not hasattr(_in, rules_choices_name):
+                raise Exception('The function: ' + rules_choices_name + ' does not exist in the class: ' + _in.label)
+            rules_choices_function = getattr(_in, rules + '__rules_choices')
+            choices = rules_choices_function(choices)
+
+        return choices
+
     def list_rules(self):
         """
         It returns the models choices
@@ -215,3 +233,4 @@ def model_ready(*args, **kwargs):
                 rule.gpm_init()
             except:
                 rule().gpm_init()
+
