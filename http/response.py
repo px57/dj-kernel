@@ -5,7 +5,7 @@ from django.test import TestCase
 from kernel.http.request import generate_fake_request
 from sites.models import Site
 from kernel.http.classobjects import Url
-
+from kernel.http.exceptions import ExitResponse
 import pprint
 import os
 
@@ -51,14 +51,18 @@ class ResponseCore:
         for key in ['response_raw']:
             setattr(self, key, kwargs[key])
 
-    def _return_response(self):
+    def _return_response(self, status=200):
         if self.response_raw:
             return self.content
 
         if settings.DEBUG:
             pprint.pprint ("return formated http response")
 
-        return JsonResponse(self.content, json_dumps_params={'indent': 2})
+        return JsonResponse(
+            self.content, 
+            json_dumps_params={'indent': 2},
+            status=status
+        )
 
     def _clean_error(self, error_update):
         """
@@ -222,6 +226,20 @@ class Response(object):
         )
         return url.compose_url()
 
+    def EXIT_SUCCESS(self):
+        """
+        Force exit with raise.
+        """
+        self.success()
+        return ExitResponse(self)
+    
+    def EXIT_ERROR(self, message=None, code_error=None, error_descr=None):
+        """
+        Force exit with raise.
+        """
+        self.error(message, code_error, error_descr)
+        return ExitResponse(self)
+    
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> [END] <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     def restResponse(self, globals, request, function):
         """
@@ -273,7 +291,7 @@ class Response(object):
             }
         update = self.__core__._clean_error(update)
         self.update(update)
-        return self.__core__._return_response()
+        return self.__core__._return_response(status=code_error)
 
     def warning_snackbar(self, messages=""):
         self.snackbar = {'type': 'warning', 'messages': messages}

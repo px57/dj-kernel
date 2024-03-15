@@ -144,6 +144,8 @@ class InterfaceManager(object):
         endpath = endpath.replace('/', '')
 
         funtion_name = 'gpm__viewparams__' + endpath
+        print ('*****************************************')
+        print (funtion_name)
         if not hasattr(self, funtion_name):
             raise Exception('The method ' + funtion_name + ' not found in the interface ' + self.__classpath__)
 

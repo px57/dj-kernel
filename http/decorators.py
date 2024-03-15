@@ -6,6 +6,7 @@ import json
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 
+from kernel.http.exceptions import ExitResponse
 from kernel.http.response import Response
 
 def add_profile(request):
@@ -86,9 +87,12 @@ def load_response__load_params(_in, gpm__viewparams__run):
     """
     Run the interface loader before run the view.
     """
+    print ('***')
+    print (gpm__viewparams__run)
     if not gpm__viewparams__run:
         return
     
+    print ('3343')
     if type(_in.request.POST) != dict:
         _in.request.POST = _in.request.POST.dict()
     _in.request.POST.update(_in.gpm__viewparams__run())
@@ -141,7 +145,13 @@ def load_response(
             else: 
                 return res.error('The interface does not exist.')
             
-            return function(request, *args, **kwargs)
+            # -> Manage the different permissions
+            try:
+                return function(request, *args, **kwargs)
+            except ExitResponse as e:
+                if e.res.__core__.content['success']:
+                    return e.res.success()
+                return e.res.error()
         
         wrap.__doc__ = function.__doc__
         wrap.__name__ = function.__name__
