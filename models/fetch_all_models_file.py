@@ -45,7 +45,10 @@ def get_list_models_to_file():
 
 def choicesListRelatedModels():
     """
-        @description:
+    Get the choices list related models
+
+    Return:
+        tuple: The choices list related models ex: (('geo.models.Countries', 'Countries'))
     """
     response = ()
     models_files = fetch_all_models_file()
@@ -62,7 +65,12 @@ def choicesListRelatedModels():
 
 def selectedChoicesListRelatedModels(selected):
     """
-        @description: 
+    Is used to get the selected choices list related models
+
+    Args:
+        selected (str): The selected related model
+    Return:
+        tuple: The selected choices list related models ex: ('geo.models.Countries', 'Countries')
     """
     choices = choicesListRelatedModels()
     response = ()
@@ -70,3 +78,19 @@ def selectedChoicesListRelatedModels(selected):
         if choice[0] == selected:
             response += (choice,)
     return response
+
+
+def existRelatedModel(relatedModel: str) -> bool:
+    """
+    Find if the related model exist
+
+    Args:
+        relatedModel (str): The related model ex: 'geo.models.Countries'
+    Return: 
+        bool: True if the related model exist, else False
+    """
+    listRelatedModel = choicesListRelatedModels()
+    for row_relatedModel in listRelatedModel:
+        if relatedModel == row_relatedModel[0]:
+            return True
+    return False
