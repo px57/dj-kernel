@@ -12,7 +12,13 @@ from kernel.http.response import Response
 def add_profile(request):
     return request
 
-def login_required(function=None, redirect_field_name=REDIRECT_FIELD_NAME, login_url=None):
+def login_required(
+        function=None, 
+        redirect_field_name=REDIRECT_FIELD_NAME, 
+        login_url=None,
+        *args,
+        **kwargs 
+    ):
     """
     Decorator for views that checks that the user is logged in, redirecting
     to the log-in page if necessary.
@@ -98,6 +104,28 @@ def load_response__load_params(_in, gpm__viewparams__run):
     _in.request.POST.update(_in.gpm__viewparams__run())
     print (_in.request.POST)
 
+def load_response__permission(
+        _in, 
+        permission, 
+        res
+    ):
+    """
+    Run the permission decorator.
+    """
+    pass
+
+def load_response__interface_form(
+        _in,
+        form,
+        res
+    ):
+    """
+    Run the interface_form params decorator.
+
+    @
+    """
+    pass
+
 def load_response(
         stack=None,
         debug=False,
@@ -106,6 +134,8 @@ def load_response(
         json=False,
         permission=None,
     ):
+    # TODO: Add the permission decorator. 
+    # TODO: Add the interface_form params decorator.
     """
     Load the response, into view.
     
@@ -130,6 +160,9 @@ def load_response(
             if _in_label == 'HELP':
                 load_help(res)
                 return res.error('HELP')
+            
+            if not _in_label:
+                return res.error('Define the ?in= parameter. Example: ?in=HELP.') 
 
             if stack.has_rule(_in_label):
                 _in = stack.get_rule(_in_label)()
@@ -137,6 +170,7 @@ def load_response(
                 _in.res = res
                 _in.DEBUG = debug
                 res.set_interface(_in)
+                kwargs['_in'] = _in
 
                 load_response__json(request, res, json)
                 load_response__load_params(_in, load_params)

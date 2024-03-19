@@ -153,12 +153,32 @@ class InterfaceManager(object):
         return method()
         
 
+LIST_INTERFACES = []
 
 def __init__interface__(app: str, ) -> None:
     """
     In the app has, __interface__ folder import all modules, dynamically.   
     """
+    def __create_interface_dir(module_path):
+        """
+        Create the interface directory.
+        """
+        if os.path.exists(module_path):
+            return;
+
+        # # Create the folder
+        os.makedirs(module_path)
+        # Create the __init__.py file
+        with open(module_path + '/__init__.py', 'w') as f:
+            f.write('')
+
+    global LIST_INTERFACES
+    LIST_INTERFACES.append(app)
+
     module = app + '.__interface__'
+    module_path = module.replace('.', '/')
+    __create_interface_dir(module_path)
+
     importlib.import_module(module)
     listdir = os.listdir(module.replace('.', '/'))
     for remove in ['__init__.py', '__pycache__']:
