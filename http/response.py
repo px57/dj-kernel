@@ -331,7 +331,7 @@ class Response(object):
             err[item[0]] = item[1]
             
         self.form_error = err
-        return self.error(404, "Invalid form post.")
+        return self.error("Invalid form post.", 404)
 
     def set(self, key, value):
         """Set value in self.__core__.content."""

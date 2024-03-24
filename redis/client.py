@@ -53,6 +53,9 @@ class Redis(Redis):
             withdist=withdist
         )
 
+        if not points:
+            return None
+
         distances = []
         objects = {}
 
@@ -61,6 +64,7 @@ class Redis(Redis):
             distances.append(point[1])
             objects[point[1]] = point
 
+        print (len(points))
         # -> sort the distances
         distances.sort()
         return {
