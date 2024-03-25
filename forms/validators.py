@@ -2,7 +2,7 @@
 from django.core.exceptions import ValidationError
 from django import forms
 
-from kernel.models.fetch_all_models_file import existRelatedModel
+from gpm.models.fetch_all_models_file import existRelatedModel
 
 class RelatedModelValidator(forms.Field):
     """

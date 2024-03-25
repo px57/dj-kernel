@@ -1,7 +1,7 @@
 {
     "base_path": "/var/projects/gpm/app/kernel/.gpm/base.json",
     "gpm_path": "/var/projects/gpm/app/kernel/.gpm",
-    "name": "dj-kernel",
+    "name": "dj-gpm",
     "project_type": "module",
     "repository_url": "https://github.com/px57/dj-kernel.git",
     "root_path": "/var/projects/gpm/app/kernel"

@@ -2,9 +2,9 @@
 
 from django.http import HttpResponseBadRequest
 
-from kernel.http.exceptions import ExitResponse
-from kernel.http import Response
-import kernel
+from gpm.http.exceptions import ExitResponse
+from gpm.http import Response
+import gpm
 
 class InterfaceManagerMiddleware:
     """

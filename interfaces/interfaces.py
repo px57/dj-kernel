@@ -1,7 +1,7 @@
 
 
-from kernel.interfaces.service import Service
-from kernel.interfaces.env import DEFAULT_INTERFACE_NAME
+from gpm.interfaces.service import Service
+from gpm.interfaces.env import DEFAULT_INTERFACE_NAME
 import importlib
 import os
 

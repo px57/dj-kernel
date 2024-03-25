@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from kernel.http import Response
+from gpm.http import Response
 from .models import UploadedImage, SeecuboxFile
 from .convert.video import VideoConverter
 from django.conf import settings

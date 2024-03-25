@@ -16,7 +16,7 @@ def get_migrations_path():
     
     return list_migrations_path
     # for app in settings.INSTALLED_APPS:
-    #     if app != 'kernel':
+    #     if app != 'gpm':
     #         dirapp = app.replace('.', '/')
     #         path = os.path.join(dirapp, 'migrations')
     #         list_migrations_path.append(path)

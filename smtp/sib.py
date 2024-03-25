@@ -11,7 +11,7 @@ from django.template import Context
 # Template 
 from django.template.loader import render_to_string
 
-from kernel.http.request import generate_fake_request
+from gpm.http.request import generate_fake_request
 
 from sib_api_v3_sdk.rest import ApiException
 

@@ -5,7 +5,7 @@
 from django.db import models
 from django.forms.models import model_to_dict
 
-from kernel.models.serialize import serializer__serialize__, serializer__init__
+from gpm.models.serialize import serializer__serialize__, serializer__init__
 
 
 class BaseMetadataModel(models.Model):

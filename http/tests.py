@@ -1,7 +1,7 @@
 
-from kernel.http import Response
+from gpm.http import Response
 from django.test import TestCase
-from kernel.http.classobjects import Url
+from gpm.http.classobjects import Url
 
 class TestResponseLoadSite(TestCase):
     """

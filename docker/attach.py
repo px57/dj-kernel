@@ -1,5 +1,5 @@
 
-from kernel.docker.id import get_container_id
+from gpm.docker.id import get_container_id
 import os
 
 def docker_attach(container): 

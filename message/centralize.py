@@ -1,6 +1,6 @@
 
-from kernel.message.error import raise_error
-from kernel.interfaces.switcher import StackSwitcher
+from gpm.message.error import raise_error
+from gpm.interfaces.switcher import StackSwitcher
 
 def process(*args, **kwargs):
     """

@@ -1,5 +1,5 @@
 
-from kernel.http.upload.convert.video import ffmpegConvert, getVideoConverterCommand
+from gpm.http.upload.convert.video import ffmpegConvert, getVideoConverterCommand
 import os
 
 def convert_video(modelObject, key):

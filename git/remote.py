@@ -5,7 +5,7 @@ This module is used to manage remote git repositories.
 import os
 import subprocess
 import sys
-from kernel.path.find import find_directory_in_parent
+from gpm.path.find import find_directory_in_parent
 
 def get_remote_url():
     """

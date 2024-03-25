@@ -23,7 +23,7 @@
     Regarder si $INTERFACE_KEY existe, si oui, il va appeler la methode send de chaque interface.
 """
 
-from kernel.message.error import raise_error
+from gpm.message.error import raise_error
 
 class InterfaceSwitcher:
     """

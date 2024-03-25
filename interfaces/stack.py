@@ -1,9 +1,9 @@
 
 
-from kernel.interfaces.env import DEFAULT_INTERFACE_NAME
+from gpm.interfaces.env import DEFAULT_INTERFACE_NAME
 from django.conf import settings
 from django.dispatch import receiver
-from kernel.signal.boot import model_ready
+from gpm.signal.boot import model_ready
 from copy import deepcopy
 import inspect
 

@@ -1,6 +1,6 @@
 from django.core.exceptions import PermissionDenied
 import json
-from kernel.websocket.base import websocket__readqueryparams
+from gpm.websocket.base import websocket__readqueryparams
 from django.conf import settings
 from django.contrib.auth.models import User, AnonymousUser
 from profiles.models import Profile

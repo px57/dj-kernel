@@ -1,6 +1,6 @@
 
 
-from kernel.interfaces.env import DEFAULT_INTERFACE_NAME
+from gpm.interfaces.env import DEFAULT_INTERFACE_NAME
 import functools
 
 def load_interface(interface_stack=None, factor=1):

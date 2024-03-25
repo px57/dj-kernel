@@ -1,13 +1,13 @@
 
-from kernel.http import Response
+from gpm.http import Response
 import json
 
 
 from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import user_passes_test
 
-from kernel.http.exceptions import ExitResponse
-from kernel.http.response import Response
+from gpm.http.exceptions import ExitResponse
+from gpm.http.response import Response
 
 def add_profile(request):
     return request

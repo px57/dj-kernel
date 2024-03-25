@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Kernel](README.md)
+* [Gpm](README.md)
 * [Signal](signal/README.md)
 * [Views](views/readme.md)
 * [Http](http/README.md)

@@ -2,10 +2,10 @@
 """Docstrings."""
 
 from django.test import TestCase
-from kernel.http.request import generate_fake_request
+from gpm.http.request import generate_fake_request
 from sites.models import Site
-from kernel.http.classobjects import Url
-from kernel.http.exceptions import ExitResponse
+from gpm.http.classobjects import Url
+from gpm.http.exceptions import ExitResponse
 import pprint
 import os
 

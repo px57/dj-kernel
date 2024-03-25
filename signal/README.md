@@ -27,7 +27,7 @@ from .signal import *
 Finalement au sein du fichier signal.py ont creer notre signal, qui va permettre de gerer cette element.&#x20;
 
 ```python
-from kernel.signal import SIGNAL_CENTER
+from gpm.signal import SIGNAL_CENTER
 
 SIGNAL_CENTER.create(
     'profile.load_me',

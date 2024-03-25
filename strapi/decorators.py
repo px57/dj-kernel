@@ -1,4 +1,4 @@
-from kernel.strapi.client import strapi_userId
+from gpm.strapi.client import strapi_userId
 
 def load_user_id(function):
     """

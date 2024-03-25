@@ -3,7 +3,7 @@
 #### \[SUCCESS]
 
 ```python
-from kernel.http import Response
+from gpm.http import Response
 
 def yourfunction(request):
     res = Response(request=request)
@@ -19,7 +19,7 @@ res.error(error=None, code_error=None, error_descr=None)
 #### \[FORM\_ERROR]
 
 ```python
-from kernel.http import Response
+from gpm.http import Response
 
 def forget_password(request):
     """
