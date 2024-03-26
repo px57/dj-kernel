@@ -131,6 +131,16 @@ class InterfaceManager(object):
         """
         pass
 
+    def gpm__generate__viewsactions__name(self, action='viewparams'):
+        """
+        Generate the views actions name.
+        """
+        path = self.request.path
+        split = path.split('/')
+        endpath = split[-2]
+        endpath = endpath.replace('/', '')
+        return 'gpm__' + action + '__' + endpath
+
     def gpm__viewparams__run(self):
         """
         Get the params and init the interface.

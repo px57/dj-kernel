@@ -94,16 +94,37 @@ def load_response__load_params(_in, gpm__viewparams__run):
     """
     Run the interface loader before run the view.
     """
-    print ('***')
-    print (gpm__viewparams__run)
     if not gpm__viewparams__run:
         return
     
-    print ('3343')
     if type(_in.request.POST) != dict:
         _in.request.POST = _in.request.POST.dict()
     _in.request.POST.update(_in.gpm__viewparams__run())
-    print (_in.request.POST)
+
+def load_response__login_required(
+        _in,
+        res
+    ) -> bool:
+    """
+    Run the login required decorator.
+    """
+    viewsactions = _in.gpm__generate__viewsactions__name('loginrequired')
+    required = getattr(_in, viewsactions, False)
+    if not required:
+        return True
+    
+    if not _in.request.user.is_authenticated:
+        return False
+    return True
+
+def load_response__load_profile(
+        _in,
+        res
+    ):
+    """
+    Run the load profile decorator.
+    """
+    pass
 
 def load_response__permission(
         _in, 
@@ -174,6 +195,9 @@ def load_response(
                 kwargs['_in'] = _in
 
                 load_response__json(request, res, json)
+                if not load_response__login_required(_in, res):
+                    return res.error('Login required.')
+                load_response__load_profile(_in, res)
                 load_response__load_params(_in, load_params)
                 if not load_response__form(_in, request, res, form):
                     return res.form_error(_in.form)
