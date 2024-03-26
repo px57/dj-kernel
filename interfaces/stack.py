@@ -187,6 +187,27 @@ class RulesStack:
             choices.append((rule.label, rule.label))
         return choices
     
+    def InterfaceField(self, **kwargs):
+        """
+        It returns the models choices
+        """
+        from django.db import models
+
+        models_choices = self.models_choices()
+        max_length = 0
+        for choice in models_choices:
+            print (choice)
+
+        if max_length == 0:
+            max_length = 255
+
+        kwargs.update({
+            'choices': models_choices,
+            'max_length': max_length,
+            'default': DEFAULT_INTERFACE_NAME,  
+        })
+        return models.CharField(**kwargs)
+    
     def rules_choices(self, rules: str):
         """
         It returns the models choices
