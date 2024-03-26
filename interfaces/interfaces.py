@@ -159,8 +159,6 @@ class InterfaceManager(object):
         endpath = endpath.replace('/', '')
 
         funtion_name = 'gpm__viewparams__' + endpath
-        print ('*****************************************')
-        print (funtion_name)
         if not hasattr(self, funtion_name):
             raise Exception('The method ' + funtion_name + ' not found in the interface ' + self.__classpath__)
 
@@ -199,13 +197,14 @@ def __init__interface__(app: str, ) -> None:
             interface_pod_path = os.path.join(app, '__interface__', poddable_module + '.py')
             if os.path.exists(interface_pod_path):
                 continue
+
             # create the file of pod.
             with open(interface_pod_path, 'w') as f:
                 f.write('')
                 f.write('from gpm.interfaces.interfaces import InterfaceManager\n')
                 f.write('\n')
-        print (app)
-        print (module)
+            # change the permission of the file.
+            os.chmod(interface_pod_path, 0o777)
 
     def __import_interface_pod():
         """
@@ -242,7 +241,6 @@ def message_addmethod_tointerface(_in, code_method, description_method):
     """ + code_method + """
     """ + description_method + """
     """
-    print (message)
     return message
 
 def has_stack_in_this_app(app) -> bool:
