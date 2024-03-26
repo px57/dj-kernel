@@ -2,9 +2,14 @@
 
 from gpm.interfaces.service import Service
 from gpm.interfaces.env import DEFAULT_INTERFACE_NAME
+
+from django.conf import settings
+
 import importlib
 import os
 
+
+LIST_PODDABLE_MODULE = []
 
 class InterfaceManager(object): 
     """
@@ -162,9 +167,6 @@ class InterfaceManager(object):
         method = getattr(self, funtion_name)
         return method()
         
-
-LIST_INTERFACES = []
-
 def __init__interface__(app: str, ) -> None:
     """
     In the app has, __interface__ folder import all modules, dynamically.   
@@ -173,6 +175,9 @@ def __init__interface__(app: str, ) -> None:
         """
         Create the interface directory.
         """
+        if not settings.DEBUG: 
+            return
+
         if os.path.exists(module_path):
             return;
 
@@ -182,22 +187,46 @@ def __init__interface__(app: str, ) -> None:
         with open(module_path + '/__init__.py', 'w') as f:
             f.write('')
 
-    global LIST_INTERFACES
-    LIST_INTERFACES.append(app)
+    def __create_interface_pod(app, module, module_path):
+        """
+        In the interface directory create the pod file.
+        """
+        global LIST_PODDABLE_MODULE
+        if not settings.DEBUG: 
+            return
+        
+        for poddable_module in LIST_PODDABLE_MODULE:
+            interface_pod_path = os.path.join(app, '__interface__', poddable_module + '.py')
+            if os.path.exists(interface_pod_path):
+                continue
+            # create the file of pod.
+            with open(interface_pod_path, 'w') as f:
+                f.write('')
+                f.write('from gpm.interfaces.interfaces import InterfaceManager\n')
+                f.write('\n')
+        print (app)
+        print (module)
+
+    def __import_interface_pod():
+        """
+        Import the interface.
+        """
+        importlib.import_module(module)
+        listdir = os.listdir(module.replace('.', '/'))
+        for remove in ['__init__.py', '__pycache__']:
+            if remove in listdir:
+                listdir.remove(remove)
+                
+        for file in listdir:
+            if file.endswith('.py'):
+                importlib.import_module(module + '.' + file.replace('.py', ''))
 
     module = app + '.__interface__'
     module_path = module.replace('.', '/')
     __create_interface_dir(module_path)
+    __create_interface_pod(app, module, module_path)
+    __import_interface_pod()
 
-    importlib.import_module(module)
-    listdir = os.listdir(module.replace('.', '/'))
-    for remove in ['__init__.py', '__pycache__']:
-        if remove in listdir:
-            listdir.remove(remove)
-            
-    for file in listdir:
-        if file.endswith('.py'):
-            importlib.import_module(module + '.' + file.replace('.py', ''))
 
 def message_addmethod_tointerface(_in, code_method, description_method):
     """
@@ -215,3 +244,26 @@ def message_addmethod_tointerface(_in, code_method, description_method):
     """
     print (message)
     return message
+
+def has_stack_in_this_app(app) -> bool:
+    """
+    Check if the stack is in this app.
+    """
+    if os.path.exists(app + '/rules/stack.py'):
+        return True
+    return False
+
+def init_list_poddable_module():
+    """
+    Init the list of poddable interfaces.
+    """
+    installed_apps = settings.INSTALLED_APPS
+    poddable_module = []
+    for app in installed_apps:
+        if has_stack_in_this_app(app):
+            poddable_module.append(app)
+
+    global LIST_PODDABLE_MODULE
+    LIST_PODDABLE_MODULE = poddable_module
+
+init_list_poddable_module()
