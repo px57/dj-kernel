@@ -83,6 +83,7 @@ def load_response__form(_in, request, res, form) -> bool:
         '_in': _in,
     }
     params.update(request.POST)
+    
     _in.form = form(params)
     _in.form._in = _in
     request.form = _in.form
@@ -156,8 +157,6 @@ def load_response(
         json=False,
         permission=None,
     ):
-    # TODO: Add the permission decorator. 
-    # TODO: Add the interface_form params decorator.
     """
     Load the response, into view.
     
@@ -179,6 +178,8 @@ def load_response(
             kwargs['res'] = res
             _in_label = get_interface_name_in_request(request)
 
+            print (_in_label)
+
             if _in_label == 'HELP':
                 load_help(res)
                 return res.error('HELP')
@@ -197,11 +198,13 @@ def load_response(
                 load_response__json(request, res, json)
                 if not load_response__login_required(_in, res):
                     return res.error('Login required.')
+                
                 load_response__load_profile(_in, res)
                 load_response__load_params(_in, load_params)
                 if not load_response__form(_in, request, res, form):
                     return res.form_error(_in.form)
             else: 
+                print ('aoeuaoeu')
                 return res.error('The interface does not exist.')
             
             # -> Manage the different permissions
